@@ -1,3 +1,5 @@
+# 테이블 설계
+
 ```sql
 create table account_tb
 (
