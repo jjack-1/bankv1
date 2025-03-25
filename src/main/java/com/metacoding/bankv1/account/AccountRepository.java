@@ -5,6 +5,8 @@ import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class AccountRepository {
@@ -17,5 +19,11 @@ public class AccountRepository {
         query.setParameter(3, balance);
         query.setParameter(4, userId);
         query.executeUpdate();
+    }
+
+    public List<Account> findAllByUserId(Integer userId) {
+        Query query = em.createNativeQuery("select * from account_tb where user_id = ? order by created_at desc", Account.class);
+        query.setParameter(1, userId);
+        return query.getResultList();
     }
 }
