@@ -48,6 +48,10 @@ public class AccountService {
         if (!(withdrawAccount.getUserId().equals(userId)))
             throw new RuntimeException("출금계좌의 권한이 없습니다");
 
+        // 이체금액 음수이면 예외
+        if (transferDTO.getAmount() < 0)
+            throw new RuntimeException("음수 금액은 불가능 합니다");
+
         // 6. 출금 계좌 & 입금 계좌 업데이트
         // 6-1. 출금 계좌 업데이트
         int withdrawBalance = withdrawAccount.getBalance();
@@ -69,6 +73,19 @@ public class AccountService {
                 transferDTO.getWithdrawNumber(),
                 transferDTO.getDepositNumber(),
                 transferDTO.getAmount(),
-                withdrawBalance);
+                withdrawBalance,
+                depositBalance);
+    }
+
+    public void 계좌상세보기(Integer number, String type, Integer sessionUserId) {
+        // 1. 계좌 존재 확인
+        Account account = accountRepository.findByNumber(number);
+        if (account == null)
+            throw new RuntimeException("해당 계좌가 없습니다");
+        // 2. 계좌 주인 확인
+        if (!(account.getUserId().equals(sessionUserId)))
+            throw new RuntimeException("해당 계좌의 권한이 없습니다");
+        // 3. 조회
+
     }
 }
