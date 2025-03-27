@@ -77,7 +77,7 @@ public class AccountService {
                 depositBalance);
     }
 
-    public void 계좌상세보기(Integer number, String type, Integer sessionUserId) {
+    public List<AccountResponse.DetailDTO> 계좌상세보기(Integer number, String type, Integer sessionUserId) {
         // 1. 계좌 존재 확인
         Account account = accountRepository.findByNumber(number);
         if (account == null)
@@ -86,6 +86,7 @@ public class AccountService {
         if (!(account.getUserId().equals(sessionUserId)))
             throw new RuntimeException("해당 계좌의 권한이 없습니다");
         // 3. 조회
-
+        List<AccountResponse.DetailDTO> detailList = accountRepository.findAllByNumber(number, type);
+        return detailList;
     }
 }

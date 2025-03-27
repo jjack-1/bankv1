@@ -80,14 +80,16 @@ public class AccountController {
     // pk나 유니크 값은 uri 주소로 받는게 약속이다
     @GetMapping("/account/{number}")
     public String detail(@PathVariable Integer number,
-                         @RequestParam(value = "type", required = false, defaultValue = "전체") String type) {
+                         @RequestParam(value = "type", required = false, defaultValue = "전체") String type,
+                         HttpServletRequest request) {
         // 로그인 인증 -> 공통 부가 로직
         User sessionUser = (User) session.getAttribute("sessionUser");
         // 인증 체크
         if (sessionUser == null) throw new RuntimeException("로그인 후 사용해 주세요");
 
         // request.getParam("값") -> 쿼리스트링, xxx-formdata
-        accountService.계좌상세보기(number, type, sessionUser.getId());
+        List<AccountResponse.DetailDTO> detailList = accountService.계좌상세보기(number, type, sessionUser.getId());
+        request.setAttribute("models", detailList);
         return "/account/detail";
     }
 
