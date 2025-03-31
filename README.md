@@ -1,4 +1,4 @@
-# 테이블 설계
+# create table
 
 ```sql
 create table account_tb

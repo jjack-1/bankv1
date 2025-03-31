@@ -17,9 +17,10 @@ public class AccountRepositoryTest {
     public void findAllByNumber_test() {
         // given
         int number = 1111;
+        String type = "출금";
 
         // when
-        List<AccountResponse.DetailDTO> detailList = accountRepository.findAllByNumber(number);
+        List<AccountResponse.DetailDTO> detailList = accountRepository.findAllByNumber(number, type);
 
         // eye
         for (AccountResponse.DetailDTO detail : detailList) {
